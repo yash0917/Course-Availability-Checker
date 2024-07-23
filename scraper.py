@@ -18,15 +18,15 @@ sender = "Private Person <mailtrap@demomailtrap.com>"
 receiver = "A Test User <yash.aggy@gmail.com>"
 
 # List of preferred instructors
-preferred_instructors = ["Christopher Kauffman", "Nelson Padua-Perez", "Ilchul Yoon"]
+preferred_instructors = ["Christopher Kauffman", "Nelson Padua-Perez"]
 
 # Set timezone to PST
 pst = pytz.timezone('US/Pacific')
 
 def check_course_availability():
     current_time = datetime.now(pst).time()
-    start_time = datetime.strptime("07:37", "%H:%M").time()
-    end_time = datetime.strptime("22:37", "%H:%M").time()
+    start_time = datetime.strptime("04:35", "%H:%M").time()
+    end_time = datetime.strptime("19:35", "%H:%M").time()
 
     if start_time <= current_time <= end_time:
         print("Checking course availability...")
@@ -79,7 +79,7 @@ From: {sender}
         print(f"Failed to send email. Error: {e}")
 
 # Schedule the scraper to run every 30 minutes
-schedule.every(1).minutes.do(check_course_availability)
+schedule.every(60).minutes.do(check_course_availability)
 
 while True:
     schedule.run_pending()
