@@ -29,7 +29,7 @@ Before you begin, ensure you have the following installed:
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/TestudoScraper.git
+    git clone https://github.com/yashaggarwal/TestudoScraper.git
     cd TestudoScraper
     ```
 
@@ -74,7 +74,7 @@ To run the Flask web application locally:
 ```bash
 python src/app.py
 ```
-This will start the Flask development server, usually accessible at `http://127.0.0.1:5000`.
+This will start the Flask development server at `http://127.0.0.1:5000` by default.
 
 To run the scraper manually (for testing purposes, it's usually deployed as part of the Docker container):
 
@@ -86,19 +86,26 @@ python src/scraper/course_scraper.py
 
 This project is designed to be easily deployed to AWS App Runner using Docker.
 
-1.  **Build the Docker Image:**
+1.  **Create an ECR Repository:**
+    First, create a repository in Amazon ECR:
+    ```bash
+    aws ecr create-repository --repository-name testudo-scraper-repo --region us-east-1
+    ```
+    Note down the repository URI that is returned.
+
+2.  **Build the Docker Image:**
     Ensure you build the image for the correct platform (Linux/x86\_64 for App Runner):
     ```bash
     docker build --platform linux/amd64 -t testudoscraper-apprunner .
     ```
 
-2.  **Authenticate Docker with Amazon ECR:**
+3.  **Authenticate Docker with Amazon ECR:**
     ```bash
     aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin your_account_id.dkr.ecr.us-east-1.amazonaws.com
     ```
     Replace `your_account_id` with your AWS account ID.
 
-3.  **Tag and Push to ECR:**
+4.  **Tag and Push to ECR:**
     First, tag your Docker image:
     ```bash
     docker tag testudoscraper-apprunner:latest your_account_id.dkr.ecr.us-east-1.amazonaws.com/your_ecr_repository_name:latest
@@ -109,7 +116,7 @@ This project is designed to be easily deployed to AWS App Runner using Docker.
     ```
     Replace `your_ecr_repository_name` with the actual name of your ECR repository (e.g., `testudo-scraper-repo`).
 
-4.  **Create/Update App Runner Service:**
+5.  **Create/Update App Runner Service:**
     You can create or update your App Runner service using the AWS CLI or the AWS Console. Ensure your App Runner service is configured to use the ECR image you just pushed.
     When creating the service, configure environment variables in App Runner to match those in your local `.env` file (e.g., `MONGODB_URI`, `NOTIFICATION_EMAIL`, etc.).
 
@@ -118,6 +125,29 @@ This project is designed to be easily deployed to AWS App Runner using Docker.
     aws apprunner update-service --service-arn your_apprunner_service_arn --source-configuration '{"ImageRepository":{"ImageIdentifier":"your_account_id.dkr.ecr.us-east-1.amazonaws.com/your_ecr_repository_name:latest","ImageRepositoryType":"ECR"}}' --region us-east-1
     ```
     Replace `your_apprunner_service_arn` with the ARN of your App Runner service.
+
+### Required Environment Variables
+
+The following environment variables are required for the application to function:
+
+*   `MONGODB_URI`: Connection string for your MongoDB Atlas database.
+*   `NOTIFICATION_EMAIL`: The email address used as the sender for notifications.
+*   `SMTP_HOST`: The SMTP server host for sending emails.
+*   `SMTP_PORT`: The SMTP server port.
+*   `SMTP_USERNAME`: The username for SMTP authentication.
+*   `SMTP_PASSWORD`: The password/API key for SMTP authentication.
+
+### Optional Environment Variables
+
+The following environment variables are optional and have default values:
+
+*   `MONGODB_DB_NAME`: Name of the MongoDB database. Defaults to `testudo_scraper`.
+*   `MONGODB_USERS_COLLECTION`: Name of the MongoDB users collection. Defaults to `users`.
+*   `MONGODB_COURSES_COLLECTION`: Name of the MongoDB courses collection. Defaults to `courses`.
+*   `TIMEZONE`: Timezone for the scraper's active window (e.g., `US/Eastern`, `Europe/London`). Defaults to `US/Pacific`.
+*   `SCRAPER_START_TIME`: Start time for the scraper to be active (24-hour format, HH:MM). Defaults to `04:35`.
+*   `SCRAPER_END_TIME`: End time for the scraper to be active (24-hour format, HH:MM). Defaults to `19:35`.
+*   `SCRAPER_INTERVAL_MINUTES`: How often the scraper runs in minutes. Defaults to `60`.
 
 ## Configuration
 
