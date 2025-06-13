@@ -50,7 +50,6 @@ def check_course_availability():
             try:
                 response = requests.get(url, timeout=10) # Added timeout
                 response.raise_for_status() # Raises HTTPError for bad responses (4xx or 5xx)
-                
                 soup = BeautifulSoup(response.content, 'html.parser')
                 sections = soup.find_all('div', class_='section')
                 
