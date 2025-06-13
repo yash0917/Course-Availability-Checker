@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome - Testudo Course Tracker{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to Testudo Course Tracker!</h1>
+    <p class="lead">Never miss a seat in your preferred course sections. Get instant email notifications when seats
+        become available.</p>
+    <hr class="my-4">
+    <p>Track your courses and preferred instructors to receive notifications when seats open up.</p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('track_course') }}" role="button">Start Tracking</a>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Track Courses</h5>
+                <p class="card-text">Enter your course ID and preferred instructors to start tracking seat availability.
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Get Notified</h5>
+                <p class="card-text">Receive email notifications as soon as seats become available in your preferred
+                    sections.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Manage Preferences</h5>
+                <p class="card-text">Easily update your preferences or unsubscribe from notifications at any time.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

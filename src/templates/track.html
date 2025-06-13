@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Track Course - Testudo Course Tracker{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="mb-0">Track a Course</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" class="form-control" id="email" name="email" required
+                            placeholder="Enter your email address">
+                        <small class="form-text text-muted">We'll send notifications to this email address.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="course_id">Course ID</label>
+                        <input type="text" class="form-control" id="course_id" name="course_id" required
+                            placeholder="e.g., CMSC216">
+                        <small class="form-text text-muted">Enter the course ID (e.g., CMSC216).</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="section_id">Section ID (Optional)</label>
+                        <input type="text" class="form-control" id="section_id" name="section_id"
+                            placeholder="e.g., 0101">
+                        <small class="form-text text-muted">If you want to track a specific section, enter its
+                            ID.</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="preferred_instructors">Preferred Instructors</label>
+                        <input type="text" class="form-control" id="preferred_instructors" name="preferred_instructors"
+                            required placeholder="e.g., John Smith, Jane Doe">
+                        <small class="form-text text-muted">Enter instructor names separated by commas.</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Start Tracking</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
