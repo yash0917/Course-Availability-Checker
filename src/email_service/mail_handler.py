@@ -9,14 +9,14 @@ logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %
 
 class EmailService:
     def __init__(self):
-        self.smtp_host = os.getenv('SMTP_HOST', 'live.smtp.mailtrap.io')
-        self.smtp_port = int(os.getenv('SMTP_PORT', 587))
-        self.smtp_username = os.getenv('SMTP_USERNAME', 'api')
+        self.smtp_host = os.getenv('SMTP_HOST')
+        self.smtp_port = int(os.getenv('SMTP_PORT'))
+        self.smtp_username = os.getenv('SMTP_USERNAME')
         self.smtp_password = os.getenv('SMTP_PASSWORD')
         self.sender_email = os.getenv('NOTIFICATION_EMAIL')
 
-        if not self.smtp_password or not self.sender_email:
-            logging.error("Email service credentials (SMTP_PASSWORD or NOTIFICATION_EMAIL) are not set.")
+        if not self.smtp_host or not self.smtp_port or not self.smtp_username or not self.smtp_password or not self.sender_email:
+            logging.error("Email service credentials (SMTP_HOST, SMTP_PORT, SMTP_USERNAME, SMTP_PASSWORD, or NOTIFICATION_EMAIL) are not set.")
             raise ValueError("Email service credentials are not configured.")
 
     def send_email(self, receiver_email, subject, body):

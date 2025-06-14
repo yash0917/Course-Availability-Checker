@@ -199,3 +199,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you have any questions, feel free to open an issue in the GitHub repository.
 
+## Important Note
+This project requires a `.env` file with specific environment variables to function correctly. Please ensure you update the `.env.example` file with your own values before running the application. Without the correct environment variables, the application will not work as expected.
+

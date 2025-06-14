@@ -38,9 +38,9 @@ class DatabaseHandler:
         if _mongo_client:
             self.client = _mongo_client
             # Consider making these configurable via environment variables if needed for open source flexibility
-            self.db = self.client.get_database(os.getenv('MONGODB_DB_NAME', 'testudo_scraper'))
-            self.users = self.db.get_collection(os.getenv('MONGODB_USERS_COLLECTION', 'users'))
-            self.courses = self.db.get_collection(os.getenv('MONGODB_COURSES_COLLECTION', 'courses'))
+            self.db = self.client.get_database(os.getenv('MONGODB_DB_NAME'))
+            self.users = self.db.get_collection(os.getenv('MONGODB_USERS_COLLECTION'))
+            self.courses = self.db.get_collection(os.getenv('MONGODB_COURSES_COLLECTION'))
         else:
             raise ConnectionFailure("MongoDB client is not initialized.")
 
